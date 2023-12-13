@@ -1,6 +1,6 @@
 """Stub unit test file."""
 
-from project_name.lib import adder
+from tkinter_calc.lib import adder
 
 
 def test_stub() -> None:
