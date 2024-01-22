@@ -1,26 +1,36 @@
+"""Calculator GUI."""
+
 from __future__ import annotations
 
-from collections.abc import Callable
 from enum import Enum, IntEnum, auto
-from typing import TypedDict
+from typing import TYPE_CHECKING, Any, TypedDict, Unpack
 
 import customtkinter as ctk
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 ctk.set_appearance_mode("System")  # Modes: system (default), light, dark
 ctk.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
 
 class ButtonType(IntEnum):
+    """Button types."""
+
     OPERATOR = auto()
     DIGIT = auto()
     RESULT = auto()
 
 
 class ButtonColour(str, Enum):
+    """Button colours."""
+
     DARK_GREY = '#323232'
     LIGHT_GREY = '#3b3b3b'
 
 
 class ButtonData(TypedDict):
+    """Data describing a button."""
+
     text: str
     function: Callable[[], None]
     variant: ButtonType
@@ -31,24 +41,18 @@ buttons: list[ButtonData] = [
         'text': '',
         'function': object,
         'variant': ButtonType,
-    }
+    },
 ]
 
-# class MainWindow:
-#     def __init__(self, root: customtkinter.CTk):
-#         self.root = root
-#         self.root.geometry("400x240")
-#         self.button = customtkinter.CTkButton(master=self.root, text="CtkButton", command=self.button_function)
-#         self.button.place(relx=0.5, rely=0.5, anchor=customtkinter.CENTER)
-
-#     def button_function(self):
-#         print("Button pressed")
 
 class OutputPanel(ctk.CTkFrame):
-    pass
+    """The results are shown here."""
 
 class ButtonGrid(ctk.CTkFrame):
-    def __init__(self, parent: ctk.CTkFrame, *args, **kwargs):
+    """Grid of buttons used to operate the calculator."""
+
+    def __init__(self: ButtonGrid, parent: ctk.CTkFrame, *args: Unpack[Any], **kwargs: Unpack[Any]) -> None:
+        """Initialise grid of buttons."""
         super().__init__(parent, *args, **kwargs)
         self.parent = parent
         self.buttons = [
@@ -60,18 +64,27 @@ class ButtonGrid(ctk.CTkFrame):
             y, x = divmod(idx, 3)
             button.grid(row=y, column=x, padx=1, pady=1)
             button.configure(fg_color="#3b3b3b")
-            
+
 
 class NumberButton(ctk.CTkButton):
-    def __init__(self, parent: ctk.CTkFrame, text: str, *args, **kwargs):
-        super().__init__(master=parent, text=text, *args, **kwargs)
+    """Button for numbers."""
+
+    def __init__(self: NumberButton, parent: ctk.CTkFrame, text: str, *args: Unpack[Any], **kwargs: Unpack[Any]) -> None:
+        """Initialise number button."""
+        super().__init__(*args, master=parent, text=text, **kwargs)
 
 class OperatorButton(ctk.CTkButton):
-    def __init__(self, parent: ctk.CTkFrame, text: str, *args, **kwargs):
-        super().__init__(master=parent, text=text, *args, **kwargs)
+    """Button for operators."""
+
+    def __init__(self: OperatorButton, parent: ctk.CTkFrame, text: str, *args: Unpack[Any], **kwargs: Unpack[Any]) -> None:
+        """Initisalise operator button."""
+        super().__init__(*args, master=parent, text=text, **kwargs)
 
 class MainWindow(ctk.CTk):
-    def __init__(self: MainWindow):
+    """Main program window."""
+
+    def __init__(self: MainWindow) -> None:
+        """Initialise main program window."""
         super().__init__()
 
         self.title("Calculator")
@@ -80,13 +93,13 @@ class MainWindow(ctk.CTk):
         self.output_panel = OutputPanel(self)
         self.button_grid = ButtonGrid(self)
         self.button = NumberButton(self, "Testing", width=10)
-        
+
         self.output_panel.grid(row=0, sticky='NEW')
-        # self.button.grid(row=0, column=0)
-        # self.button.configure(fg_color="#323232")
+        # NOTE: Play with self.button.grid(row=0, column=0)
+        # NOTE: Play with self.button.configure(fg_color="#323232")
         self.button_grid.grid(row=1, sticky='SEW', columnspan=1)
         self.button_grid.configure(fg_color="#202020")
-        
+
 
 if __name__ == '__main__':
     app = MainWindow()
