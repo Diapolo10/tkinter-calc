@@ -127,29 +127,29 @@ target-version = "py310"
 author = "Lari Liuhamo"
 
 
-[tool.ruff.flake8-quotes]
+[tool.ruff.lint.flake8-quotes]
 docstring-quotes = 'double'
 multiline-quotes = 'double'
 
 
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
 max-complexity = 10
 
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 # https://beta.ruff.rs/docs/rules/
 '__init__.py' = ['F401','F403','F405',]
 "tests/*" = ["ANN", "ARG", "INP001", "PT011", "S101", "PLR2004",]
 
 
-[tool.ruff.pylint]
+[tool.ruff.lint.pylint]
 max-args = 15
 max-branches = 20
 max-returns = 10
 max-statements = 80
 
 
-[tool.ruff.flake8-tidy-imports]
+[tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = 'all'
 
 
